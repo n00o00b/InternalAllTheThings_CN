@@ -1,28 +1,29 @@
-# Internal All The Things
+# Internal All The Things (中文版)
 
-Active Directory and Internal Pentest Cheatsheets
+内网渗透与 Active Directory 实战攻防速查表（全量人工翻译版）。
 
-An alternative display version is available at [Internal All The Things - Web version](https://swisskyrepo.github.io/InternalAllTheThings/).
+本项目是 [swisskyrepo/InternalAllTheThings](https://github.com/swisskyrepo/InternalAllTheThings) 的中文翻译版本，旨在为中文安全研究人员提供更易读的内网渗透技术参考。
 
 <p align="center">
   <img alt="banner" src="https://raw.githubusercontent.com/swisskyrepo/InternalAllTheThings/master/assets/banner.png">
 </p>
 
-## 📖 Documentation
+## 📖 文档说明
 
-* Feel free to update any pages with your knowledge by submitting a Pull Request
-* Content in this repository is provided as is, for learning purpose. The author and contributors take no responsibility if you break something.
+*   **全量翻译**：涵盖 Active Directory、云安全、红队技术、容器安全、数据库安全、方法论等所有章节。
+*   **人工校验**：非简单机翻，确保技术术语准确，代码和命令保持原文。
+*   **结构清晰**：保留原项目的组织结构，便于对照学习。
 
-## 👨‍💻 Contributions
+## 👨‍💻 贡献与免责
 
-<p align="center">
-<a href="https://github.com/swisskyrepo/InternalAllTheThings/graphs/contributors">
-  <img alt="contributors-list" src="https://contrib.rocks/image?repo=swisskyrepo/InternalAllTheThings&max=36">
-</a>
-</p>
+*   欢迎提交 Pull Request 来完善翻译或补充新的技术点。
+*   本仓库内容仅供学习和合规安全测试参考。请在获得授权的情况下使用，作者对任何违法及滥用行为不承担责任。
 
-Thanks again for your contribution! :heart:
+---
 
-You can also share the project and contribute with a Github Sponsorship.
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Internal%20All%20The%20Things,%20a%20list%20of%20useful%20payloads%20and%20bypasses%20for%20Internal%20Security%20Assessments-%20by%20@pentest_swissky&url=https://github.com/swisskyrepo/InternalAllTheThings)
-[![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&link=https://github.com/sponsors/swisskyrepo)](https://github.com/sponsors/swisskyrepo)
+## 🔗 相关链接
+
+*   **原项目**: [swisskyrepo/InternalAllTheThings](https://github.com/swisskyrepo/InternalAllTheThings)
+*   **原项目页面**: [Web version](https://swisskyrepo.github.io/InternalAllTheThings/)
+
+---

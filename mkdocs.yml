@@ -1,8 +1,8 @@
-site_name: Internal All The Things
-site_description: 'Active Directory and Internal Pentest Cheatsheets'
-site_url: https://swisskyrepo.github.io/InternalAllTheThings
+site_name: Internal All The Things (中文版)
+site_description: '内网渗透与 Active Directory 实战攻防速查表 (中文翻译版)'
+site_url: https://n00o00b.github.io/InternalAllTheThings_CN/
 
-repo_url: https://github.com/swisskyrepo/InternalAllTheThings
+repo_url: https://github.com/n00o00b/InternalAllTheThings_CN
 edit_uri: blob/main/docs/
 
 theme:
@@ -58,6 +58,16 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 plugins:
+  - i18n:
+      languages:
+        - locale: zh
+          name: 中文
+          default: true
+          build: true
+        - locale: en
+          name: English
+          build: true
+      fallback_to_default: true
   - search
   - git-revision-date-localized
   - social
