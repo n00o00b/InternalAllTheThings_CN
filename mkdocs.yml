@@ -60,12 +60,12 @@ markdown_extensions:
 plugins:
   - i18n:
       languages:
-        - locale: zh
-          name: 中文
-          default: true
-          build: true
         - locale: en
           name: English
+          default: true
+          build: true
+        - locale: zh
+          name: 中文
           build: true
       fallback_to_default: true
   - search
