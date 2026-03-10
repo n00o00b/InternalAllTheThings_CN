@@ -1,6 +1,6 @@
 site_name: Internal All The Things (中文版)
 site_description: '内网渗透与 Active Directory 实战攻防速查表 (中文翻译版)'
-site_url: https://n00o00b.github.io/InternalAllTheThings_CN/
+site_url: https://internalallthethings.n0o0b.com/
 
 repo_url: https://github.com/n00o00b/InternalAllTheThings_CN
 edit_uri: blob/main/docs/
