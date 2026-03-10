@@ -1,0 +1,17 @@
+# Active Directory - 证书 ESC 攻击
+
+* [ESC1 - 错误配置的证书模板](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc01/)
+* [ESC2 - 错误配置的证书模板](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc02/)
+* [ESC3 - 错误配置的注册代理模板](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc03/)
+* [ESC4 - 访问控制漏洞](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc04/)
+* [ESC5 - PKI 对象访问控制漏洞](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc05/)
+* [ESC6 - EDITF_ATTRIBUTESUBJECTALTNAME2](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc06/)
+* [ESC7 - 证书颁发机构访问控制漏洞](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc07/)
+* [ESC8 - Web 注册中继](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc08/)
+* [ESC9 - 无安全扩展](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc09/)
+* [ESC10 - 弱证书映射](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc10/)
+* [ESC11 - NTLM 中继到 ICPR](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc11/)
+* [ESC12 - YubiHSM 上的 ADCS CA](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc12/)
+* [ESC13 - 颁发策略](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc13/)
+* [ESC14 - altSecurityIdentities](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc14/)
+* [ESC15 - EKUwu 应用程序策略 - CVE-2024-49019](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adcs-esc15/)
